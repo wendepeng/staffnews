@@ -1,0 +1,15 @@
+{php $pc_hash = get_hash();}
+<h1>{$title}</h1>
+<div class="content">
+{if $pictureurl}{$pictureurl}<br>{$pages}{/if}
+{$content}
+</div>
+<a newsid="{$id}" href="###" pc_hash="{$pc_hash}" class="read">我已阅读</a>
+<script src="{JS_PATH}jquery.min.js"></script>
+<script>
+    $(function(){
+        $('.read').click(function(){
+            alert('我已阅读');
+        });
+    });
+</script>

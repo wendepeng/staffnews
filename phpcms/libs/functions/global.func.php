@@ -1731,5 +1731,25 @@ function get_vid($contentid = 0, $catid = 0, $isspecial = 0) {
 		return $minite.":".$secend;
 	}
 
- } 
+ }
+
+/*
+ * 前台获取pc_hash
+ */
+function get_hash(){
+    return $_SESSION['pc_hash'];
+}
+
+/*
+ * 前台验证pc_hash
+ */
+function check_hash(){
+    if(isset($_GET['pc_hash']) && $_SESSION['pc_hash'] != '' && ($_SESSION['pc_hash'] == $_GET['pc_hash'])) {
+        return true;
+    } elseif(isset($_POST['pc_hash']) && $_SESSION['pc_hash'] != '' && ($_SESSION['pc_hash'] == $_POST['pc_hash'])) {
+        return true;
+    } else {
+        showmessage('hash验证失败！',HTTP_REFERER);
+    }
+}
 ?>

@@ -3,7 +3,12 @@ defined('IN_PHPCMS') or exit('No permission resources.');
 pc_base::load_app_func('global');
 pc_base::load_sys_class('format', '', 0);
 class index {
-	function __construct() {		
+	function __construct() {
+        //设置hash值
+        $session_storage = 'session_'.pc_base::load_config('system','session_storage');
+        pc_base::load_sys_class($session_storage);
+        $_SESSION['pc_hash'] = random(6,'abcdefghigklmnopqrstuvwxwyABCDEFGHIGKLMNOPQRSTUVWXWY0123456789');
+
 		$this->db = pc_base::load_model('content_model');
 		$this->siteid = isset($_GET['siteid']) && (intval($_GET['siteid']) > 0) ? intval(trim($_GET['siteid'])) : (param::get_cookie('siteid') ? param::get_cookie('siteid') : 1);
 		param::set_cookie('siteid',$this->siteid);	
@@ -23,7 +28,25 @@ class index {
 		$template = $WAP_SETTING['index_template'] ? $WAP_SETTING['index_template'] : 'index';
 		include template('wap', $template);
 	}
-	
+
+    //员工须知栏目列表函数
+    public function ygxz_lists($cat = 0) {
+        $catid = $cat['catid'];
+
+        if ($catid < 1) {
+            exit(L('parameter_error'));
+        }
+
+        $MODEL = getcache('model', 'commons');
+        $modelid = $cat['modelid'];
+        $this->db->table_name = $this->db->db_tablepre . $MODEL[$modelid]['tablename'];
+
+        $readed_list = $this->db->select(array('status' => '99', 'catid' => $catid, 'isreaded' => 1), '*', '', '', '', 'inputtime DESC');
+        $unreaded_list = $this->db->select(array('status' => '99', 'catid' => $catid, 'isreaded' => 0), '*', '', '', '', 'inputtime DESC');
+
+        include template('wap', 'list_ygxz');
+    }
+
     //展示列表页
 	public function lists() {
 	    $parentids = array();
@@ -43,7 +66,13 @@ class index {
 		$siteid = $GLOBALS['siteid'] = $CAT['siteid'];
 		extract($CAT);	
 		foreach($TYPE as $_t) $parentids[] = $_t['parentid'];
-		
+
+        //员工须知栏目
+        if ($CAT['catdir'] == 'ygxz') {
+            $this->ygxz_lists($CAT);
+            exit;
+        }
+
 		$template = ($TYPE[$typeid]['parentid']==0 && in_array($typeid,array_unique($parentids))) ? $WAP_SETTING['category_template'] : $WAP_SETTING['list_template'];	
 		$MODEL = getcache('model','commons');
 		$modelid = $CAT['modelid'];
@@ -204,7 +233,14 @@ class index {
 				
 		$content = content_strip(wml_strip($content));	
 		$template = $WAP_SETTING['show_template'] ? $WAP_SETTING['show_template'] : 'show';
-		include template('wap', $template);
+
+        $CATEGORYS = getcache('category_content_' . $siteid, 'commons');
+        if (!isset($CATEGORYS[$catid])) exit(L('parameter_error'));
+        $CAT = $CATEGORYS[$catid];
+        if ($CAT['catdir'] == 'ygxz') {
+            $template = 'show_ygxz';
+        }
+        include template('wap', $template);
 	}
 	
 	//提交评论
