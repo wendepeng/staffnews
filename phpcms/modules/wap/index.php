@@ -79,8 +79,8 @@ class index {
     public function ygxz_lists($cat = 0) {
         $read_db = pc_base::load_model('read_model');
         $read_db->table_name = $this->db->db_tablepre . 'read';
-        #TODO
-        $userid=12;
+
+        $userid=intval($_GET['uid']);
         $catid = $cat['catid'];
 
         if ($catid < 1) {

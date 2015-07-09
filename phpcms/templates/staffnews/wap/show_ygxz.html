@@ -17,8 +17,8 @@
     {if $pictureurl}{$pictureurl}<br>{$pages}{/if}
     {$content}
 </section>
-<div class="ui-footer ui-footer-stable ui-justify ui-border-t" style="display: {php echo $_GET['type']=='readed'?'none':''}">
-    <a href="newsid={$id}&pc_hash={$pc_hash}" style="postion:absolute;left:35%;top:20%;" class="read ui-btn disabled">我已阅读<label>(<span id="sec">15</span>s)</label></a>
+<div class="ui-footer ui-footer-stable ui-justify ui-border-t" style="display:none;text-align:center;display: {php echo $_GET['type']=='readed'?'none':''}">
+    <a href="newsid={$id}" style="top:30%" class="read ui-btn disabled">我已阅读<label>(<span id="sec">15</span>s)</label></a>
 </div>
 <script src="{JS_PATH}zepto.min.js"></script>
 <script src="{JS_PATH}frozen.js"></script>
@@ -33,8 +33,8 @@
             setTimeout("lazyGo();", 1000);
         }else {
             $('label').remove();
-            $('button').removeClass('disabled');
-            $('button').addClass('ui-btn-primary');
+            $('.read').removeClass('disabled');
+            $('.read').addClass('ui-btn-primary');
         }
     }
 </script>
