@@ -1,15 +1,54 @@
-<div class="adds">未读</div>
-<div class="unreaded">
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>员工须知</title>
+    <link rel="stylesheet" href="{CSS_PATH}frozen.css">
+    <link rel="stylesheet" href="{CSS_PATH}demo.css">
+    <link rel="stylesheet" href="{CSS_PATH}style.css">
+</head>
+<body>
+<div class="ui-list-info ui-whitespace" style="display: {php echo empty($unreaded_list)?'none':'';}">
+    <h1 class="ui-nowrap">未读</h1>
+</div>
+<ul class="ui-list ui-list-function ui-list-link ui-border-tb">
     {loop $unreaded_list $u}
-    <a href="{show_url($u[catid],$u[id],$typeid)}" title="{$u['title']}">{str_cut($u['title'],26,'')}</a><br/>
-    <a href="{show_url($u[catid],$u[id],$typeid)}" >点击查看</a>
+    <li class="ui-border-t">
+        <div class="ui-list-info">
+            <a href="{show_url($u[catid],$u[id],$typeid)}&type=unreaded" class="ui-nowrap" title="{$u['title']}">{str_cut($u['title'],26,'')}</a>
+        </div>
+        <a href="{show_url($u[catid],$u[id],$typeid)}&type=unreaded" class="ui-btn-s" title="{$u['title']}">点击查看</a>
+    </li>
     {/loop}
+</ul>
+<div class="ui-list-info ui-whitespace">
+    <h1 class="ui-nowrap">员工须知</h1>
 </div>
-<hr>
-<div class="adds">员工须知</div>
-<div class="readed">
-{loop $readed_list $v}
-	<a href="{show_url($v[catid],$v[id],$typeid)}" title="{$v['title']}">{str_cut($v['title'],26,'')}</a><br/>
-    <a href="{show_url($v[catid],$v[id],$typeid)}" >点击查看</a>
-{/loop}
+
+<ul class="ui-list ui-list-function ui-list-link ui-border-tb">
+    {loop $readed_list $v}
+    <li class="ui-border-t">
+        <div class="ui-list-info">
+            <a href="{show_url($v[catid],$v[id],$typeid)}&type=readed" title="{$v['title']}"><h4 class="ui-nowrap">{str_cut($v['title'],26,'')}</h4></a>
+        </div>
+        <a href="{show_url($v[catid],$v[id],$typeid)}&type=readed" class="ui-btn-s" title="{$v['title']}">点击查看</a>
+    </li>
+    {/loop}
+</ul>
+<div class="ui-btn-wrap">
+    <a class="ui-btn-lg loading" page="2" pagesize="10" last_readed_news="{$last_readed_news['id']}" url="/index.php?api.php?op=readednews" >查看更多</a>
 </div>
+<script src="{JS_PATH}zepto.min.js"></script>
+<script src="{JS_PATH}frozen.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('a.loading').click(function () {
+            var url = document.location.href;
+            url = url.replace("a=lists", "a=ygxz_more");
+            document.location.href = url;
+        });
+    });
+</script>
+</body>
+</html>

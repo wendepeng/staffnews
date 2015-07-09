@@ -29,8 +29,58 @@ class index {
 		include template('wap', $template);
 	}
 
+    //员工须知查看更多
+    public function ygxz_more() {
+        $parentids = array();
+        $WAP = $this->wap;
+        $TYPE = $this->types;
+        $WAP_SETTING = string2array($WAP['setting']);
+        $GLOBALS['siteid'] = $siteid = max($this->siteid,1);
+        $typeid = intval($_GET['typeid']);
+        if(!$typeid) exit(L('parameter_error'));
+        $catid = $this->types[$typeid]['cat'];
+        $siteids = getcache('category_content','commons');
+        $siteid = $siteids[$catid];
+        $CATEGORYS = getcache('category_content_'.$siteid,'commons');
+
+        if(!isset($CATEGORYS[$catid])) exit(L('parameter_error'));
+        $CAT = $CATEGORYS[$catid];
+        $siteid = $GLOBALS['siteid'] = $CAT['siteid'];
+        extract($CAT);
+        foreach($TYPE as $_t) $parentids[] = $_t['parentid'];
+
+        $read_db = pc_base::load_model('read_model');
+        $read_db->table_name = $this->db->db_tablepre . 'read';
+        #TODO
+        $userid=12;
+
+        if ($catid < 1) {
+            exit(L('parameter_error'));
+        }
+
+        $MODEL = getcache('model', 'commons');
+        $modelid = $CAT['modelid'];
+        $this->db->table_name = $this->db->db_tablepre . $MODEL[$modelid]['tablename'];
+
+        $readed_list = array();
+        $list = $this->db->select(array('status' => '99', 'catid' => $catid), '*', '','inputtime DESC');
+        $read_list =$read_db->select(array('userid'=>$userid));
+        $read_newsid_list = array_column($read_list,'newsid');
+        foreach($list as $news){
+            if(in_array($news['id'],$read_newsid_list)){
+                array_push($readed_list,$news);
+            }
+        }
+
+        include template('wap', 'more_ygxz');
+    }
+
     //员工须知栏目列表函数
     public function ygxz_lists($cat = 0) {
+        $read_db = pc_base::load_model('read_model');
+        $read_db->table_name = $this->db->db_tablepre . 'read';
+        #TODO
+        $userid=12;
         $catid = $cat['catid'];
 
         if ($catid < 1) {
@@ -41,8 +91,21 @@ class index {
         $modelid = $cat['modelid'];
         $this->db->table_name = $this->db->db_tablepre . $MODEL[$modelid]['tablename'];
 
-        $readed_list = $this->db->select(array('status' => '99', 'catid' => $catid, 'isreaded' => 1), '*', '', '', '', 'inputtime DESC');
-        $unreaded_list = $this->db->select(array('status' => '99', 'catid' => $catid, 'isreaded' => 0), '*', '', '', '', 'inputtime DESC');
+        $readed_list = array();
+        $unreaded_list = array();
+        $list = $this->db->select(array('status' => '99', 'catid' => $catid), '*', '','inputtime DESC');
+        $read_list =$read_db->select(array('userid'=>$userid));
+        $read_newsid_list = array_column($read_list,'newsid');
+        foreach($list as $news){
+            if(in_array($news['id'],$read_newsid_list)){
+                array_push($readed_list,$news);
+            }else{
+                array_push($unreaded_list,$news);
+            }
+        }
+
+        $read_list = array_slice($readed_list,0,15);
+        $last_readed_news = end($read_list);
 
         include template('wap', 'list_ygxz');
     }

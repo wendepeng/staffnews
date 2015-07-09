@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>员工须知</title>
+    <link rel="stylesheet" href="{CSS_PATH}frozen.css">
+    <link rel="stylesheet" href="{CSS_PATH}demo.css">
+    <link rel="stylesheet" href="{CSS_PATH}style.css">
+</head>
+<body>
+<div class="ui-list-info ui-whitespace">
+    <h1 class="ui-nowrap">员工须知</h1>
+</div>
+<ul class="ui-list ui-list-text ui-border-tb">
+    {loop $readed_list $v}
+    <li class="ui-border-t">
+        <div class="ui-list-info">
+            <a href="{show_url($v[catid],$v[id],$typeid)}" class="ui-nowrap" title="{$v['title']}">{str_cut($v['title'],26,'')}</a>
+        </div>
+        <a href="{show_url($v[catid],$v[id],$typeid)}" class="ui-nowrap" title="{$v['title']}">点击查看</a>
+    </li>
+    {/loop}
+</ul>
+<script src="{JS_PATH}zepto.min.js"></script>
+<script src="{JS_PATH}frozen.js"></script>
+</body>
+</html>

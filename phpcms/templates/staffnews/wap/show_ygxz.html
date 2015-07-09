@@ -1,15 +1,42 @@
-{php $pc_hash = get_hash();}
-<h1>{$title}</h1>
-<div class="content">
-{if $pictureurl}{$pictureurl}<br>{$pages}{/if}
-{$content}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>员工须知</title>
+    <link rel="stylesheet" href="{CSS_PATH}frozen.css">
+    <link rel="stylesheet" href="{CSS_PATH}demo.css">
+    <link rel="stylesheet" href="{CSS_PATH}style.css">
+</head>
+<body>
+<header class="title">
+    {php $pc_hash = get_hash();}
+    <h1>{$title}</h1>
+</header>
+<section class="ui-container ui-txt-justify ui-whitespace">
+    {if $pictureurl}{$pictureurl}<br>{$pages}{/if}
+    {$content}
+</section>
+<div class="ui-footer ui-footer-stable ui-justify ui-border-t" style="display: {php echo $_GET['type']=='readed'?'none':''}">
+    <a href="newsid={$id}&pc_hash={$pc_hash}" style="postion:absolute;left:35%;top:20%;" class="read ui-btn disabled">我已阅读<label>(<span id="sec">15</span>s)</label></a>
 </div>
-<a newsid="{$id}" href="###" pc_hash="{$pc_hash}" class="read">我已阅读</a>
-<script src="{JS_PATH}jquery.min.js"></script>
-<script>
-    $(function(){
-        $('.read').click(function(){
-            alert('我已阅读');
-        });
+<script src="{JS_PATH}zepto.min.js"></script>
+<script src="{JS_PATH}frozen.js"></script>
+<script type="text/javascript">
+    $(function () {
+        setTimeout("lazyGo();", 1000);
     });
+    function lazyGo() {
+        var sec = $("#sec").text();
+        $("#sec").text(--sec);
+        if (sec > 0) {
+            setTimeout("lazyGo();", 1000);
+        }else {
+            $('label').remove();
+            $('button').removeClass('disabled');
+            $('button').addClass('ui-btn-primary');
+        }
+    }
 </script>
+</body>
+</html>
