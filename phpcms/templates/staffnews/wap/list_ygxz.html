@@ -16,9 +16,9 @@
     {loop $unreaded_list $u}
     <li class="ui-border-t">
         <div class="ui-list-info">
-            <a href="{show_url($u[catid],$u[id],$typeid)}&type=unreaded" class="ui-nowrap" title="{$u['title']}">{str_cut($u['title'],26,'')}</a>
+            <a href="{show_url($u[catid],$u[id],$typeid)}&uid={$uid}&type=unreaded" class="ui-nowrap" title="{$u['title']}">{str_cut($u['title'],26,'')}</a>
         </div>
-        <a href="{show_url($u[catid],$u[id],$typeid)}&type=unreaded" class="ui-btn-s" title="{$u['title']}">点击查看</a>
+        <a href="{show_url($u[catid],$u[id],$typeid)}&uid={$uid}&type=unreaded" class="ui-btn-s" title="{$u['title']}">点击查看</a>
     </li>
     {/loop}
 </ul>
@@ -30,9 +30,9 @@
     {loop $readed_list $v}
     <li class="ui-border-t">
         <div class="ui-list-info">
-            <a href="{show_url($v[catid],$v[id],$typeid)}&type=readed" title="{$v['title']}"><h4 class="ui-nowrap">{str_cut($v['title'],26,'')}</h4></a>
+            <a href="{show_url($v[catid],$v[id],$typeid)}&uid={$uid}&type=readed" title="{$v['title']}"><h4 class="ui-nowrap">{str_cut($v['title'],26,'')}</h4></a>
         </div>
-        <a href="{show_url($v[catid],$v[id],$typeid)}&type=readed" class="ui-btn-s" title="{$v['title']}">点击查看</a>
+        <a href="{show_url($v[catid],$v[id],$typeid)}&uid={$uid}&type=readed" class="ui-btn-s" title="{$v['title']}">点击查看</a>
     </li>
     {/loop}
 </ul>

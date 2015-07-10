@@ -18,7 +18,7 @@
     {$content}
 </section>
 <div class="ui-footer ui-footer-stable ui-justify ui-border-t" style="text-align:center;">
-    <a href="###" style="top:30%" class="read ui-btn disabled">我已阅读<label>(<span id="sec">15</span>s)</label></a>
+    <a href="###" style="top:30%" uid="{$uid}" newsid="{$id}" class="read ui-btn disabled">我已阅读<label>(<span id="sec">15</span>s)</label></a>
 </div>
 <script src="{JS_PATH}jquery.min.js"></script>
 <script src="{JS_PATH}zepto.min.js"></script>
@@ -30,8 +30,8 @@
         //点击我已阅读
         $('a.read').click(function(){
             var a = $(this);
-            var newsid = 1;
-            var userid = 12;
+            var newsid = a.attr('id');
+            var userid = a.attr('uid');
             var url = '/api.php?op=ygxz&a=read&newsid='+newsid+'&userid='+userid;
             $.ajax({
                 url: url,

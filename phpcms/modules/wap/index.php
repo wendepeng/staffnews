@@ -87,6 +87,8 @@ class index {
             exit(L('parameter_error'));
         }
 
+        $uid = intval($_GET['uid']);
+
         $MODEL = getcache('model', 'commons');
         $modelid = $cat['modelid'];
         $this->db->table_name = $this->db->db_tablepre . $MODEL[$modelid]['tablename'];
@@ -301,6 +303,7 @@ class index {
         if (!isset($CATEGORYS[$catid])) exit(L('parameter_error'));
         $CAT = $CATEGORYS[$catid];
         if ($CAT['catdir'] == 'ygxz') {
+            $uid = intval($_GET['uid']);
             $template = 'show_ygxz';
         }
         include template('wap', $template);
