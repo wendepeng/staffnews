@@ -36,8 +36,14 @@ if ($_GET['op'] == 'ygxz' && $_GET['a']=='unread_count' && isset($_GET['userid']
     $rep['msg']='';
     $rep['unread_count']=$unread_count;
     echo json_encode($rep);
-} else {
-    header('HTTP/1.1 404 Not Found');
-    header('Location: /404.html');
-    die();
+} else if($_GET['op']=='ygxz'&&$_GET['a']=='read'&&isset($_GET['userid'])&&isset($_GET['newsid'])){
+
+    $userid = intval($_GET['userid']);
+    $newsid = intval($_GET['newsid']);
+    $read_db = pc_base::load_model('read_model');
+    if($read_db->insert(array('newsid'=>$newsid,'userid'=>$userid,'createdtime'=>time()))){
+        echo json_encode(array('status'=>0,'success'=>TRUE));
+    }else{
+        echo json_encode(array('status'=>-1,'success'=>FALSE));
+    }
 }
