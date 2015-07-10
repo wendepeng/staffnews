@@ -303,7 +303,8 @@ class index {
         if (!isset($CATEGORYS[$catid])) exit(L('parameter_error'));
         $CAT = $CATEGORYS[$catid];
         if ($CAT['catdir'] == 'ygxz') {
-            $uid = intval($_GET['uid']);
+            $uid = intval(addslashes($_GET['uid']));
+            $type = addslashes($_GET['type']);
             $template = 'show_ygxz';
         }
         include template('wap', $template);

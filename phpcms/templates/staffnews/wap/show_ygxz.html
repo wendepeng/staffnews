@@ -17,7 +17,7 @@
     {if $pictureurl}{$pictureurl}<br>{$pages}{/if}
     {$content}
 </section>
-<div class="ui-footer ui-footer-stable ui-justify ui-border-t" style="text-align:center;">
+<div class="ui-footer ui-footer-stable ui-justify ui-border-t" style="text-align:center;display:{php echo $type=='unreaded'?'':'none';}">
     <a href="###" style="top:30%" uid="{$uid}" newsid="{$id}" class="read ui-btn disabled">我已阅读<label>(<span id="sec">15</span>s)</label></a>
 </div>
 <script src="{JS_PATH}jquery.min.js"></script>
@@ -26,31 +26,6 @@
 <script type="text/javascript">
     $(function () {
         setTimeout("lazyGo();", 1000);
-
-        //点击我已阅读
-        $('a.read').click(function(){
-            var a = $(this);
-            var newsid = a.attr('newsid');
-            var userid = a.attr('uid');
-            var url = '/api.php?op=ygxz&a=read&newsid='+newsid+'&userid='+userid;
-            $.ajax({
-                url: url,
-                method: "GET",
-                dataType: "json"
-            }).done(function (data){
-                if (data.success) {
-                    a.addClass('disabled');
-                    a.html('您已阅读');
-
-                    //跳转到员工须知列表页
-                    location.href='/index.php?m=wap&siteid=1&a=lists&typeid=1&uid='.userid;
-                } else {
-                    alert('系统繁忙，请稍后再试！');
-                }
-            }).fail(function () {
-                alert('系统繁忙，请稍后再试！');
-            });
-        });
     });
 
     function lazyGo() {
@@ -62,6 +37,30 @@
             $('label').remove();
             $('.read').removeClass('disabled');
             $('.read').addClass('ui-btn-primary');
+            //点击我已阅读
+            $('a.read').click(function(){
+                var a = $(this);
+                var newsid = a.attr('newsid');
+                var userid = a.attr('uid');
+                var url = '/api.php?op=ygxz&a=read&newsid='+newsid+'&userid='+userid;
+                $.ajax({
+                    url: url,
+                    method: "GET",
+                    dataType: "json"
+                }).done(function (data){
+                    if (data.success) {
+                        a.addClass('disabled');
+                        a.html('您已阅读');
+
+                        //跳转到员工须知列表页
+                        location.href='/index.php?m=wap&siteid=1&a=lists&typeid=1&uid='.userid;
+                    } else {
+                        alert('系统繁忙，请稍后再试！');
+                    }
+                }).fail(function () {
+                    alert('系统繁忙，请稍后再试！');
+                });
+            });
         }
     }
 </script>
