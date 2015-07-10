@@ -30,7 +30,7 @@
         //点击我已阅读
         $('a.read').click(function(){
             var a = $(this);
-            var newsid = a.attr('id');
+            var newsid = a.attr('newsid');
             var userid = a.attr('uid');
             var url = '/api.php?op=ygxz&a=read&newsid='+newsid+'&userid='+userid;
             $.ajax({
@@ -43,7 +43,7 @@
                     a.html('您已阅读');
 
                     //跳转到员工须知列表页
-                    location.href='/index.php?m=wap&siteid=1&a=lists&typeid=1';
+                    location.href='/index.php?m=wap&siteid=1&a=lists&typeid=1&uid='.userid;
                 } else {
                     alert('系统繁忙，请稍后再试！');
                 }
