@@ -51,8 +51,8 @@ class index {
 
         $read_db = pc_base::load_model('read_model');
         $read_db->table_name = $this->db->db_tablepre . 'read';
-        #TODO
-        $userid=12;
+
+        $userid=intval($_GET['uid']);
 
         if ($catid < 1) {
             exit(L('parameter_error'));

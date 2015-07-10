@@ -37,7 +37,7 @@
     {/loop}
 </ul>
 <div class="ui-btn-wrap">
-    <a class="ui-btn-lg loading" page="2" pagesize="10" last_readed_news="{$last_readed_news['id']}" url="/index.php?api.php?op=readednews" >查看更多</a>
+    <a class="ui-btn-lg loading" page="2" uid="{$userid}" pagesize="10" last_readed_news="{$last_readed_news['id']}" url="/index.php?api.php?op=readednews" >查看更多</a>
 </div>
 <script src="{JS_PATH}zepto.min.js"></script>
 <script src="{JS_PATH}frozen.js"></script>
@@ -45,7 +45,9 @@
     $(function(){
         $('a.loading').click(function () {
             var url = document.location.href;
+            var uid = $(this).attr('uid');
             url = url.replace("a=lists", "a=ygxz_more");
+            url = url + '&uid=' + uid;
             document.location.href = url;
         });
     });
