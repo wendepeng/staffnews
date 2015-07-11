@@ -30,6 +30,16 @@ class http {
 		return $this->request($url, $referer, $limit, $timeout, $block);
 	}
 
+    function post_json($url, $data = array(), $referer = '', $limit = 0, $timeout = 30, $block = TRUE) {
+        $this->method = 'POST';
+        $this->ContentType = "Content-Type: application/x-www-form-urlencoded\r\n";
+        if ($data) {
+            $post = '';
+            $this->post = json_encode($data);
+        }
+        return $this->request($url, $referer, $limit, $timeout, $block);
+    }
+
 	function get($url, $referer = '', $limit = 0, $timeout = 30, $block = TRUE) {
 		$this->method = 'GET';
 		return $this->request($url, $referer, $limit, $timeout, $block);
